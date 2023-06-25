@@ -4,7 +4,7 @@
 							.code16																	# Notifica il codice a 16 bits
 
 							#																		#
-							# General Descriptor Table. 											#
+							# General Descriptor Table.												#
 							#																		#
 							# Questa tabella (con tutti i vari dati) serve nello step per il 		#
 							# passaggio alla modalità a 32 bits. Descriverà con dei valori di 		#
@@ -38,7 +38,7 @@ gdt_end:
 
 gdt_descriptor:
 							.word 				gdt_end - gdt_start - 1								# Dimensione della tabella
-    						.long 				gdt_start											# Offset della tabella
+							.long 				gdt_start											# Offset della tabella
 
 segments:
 							.equ				CODE_SEG, gdt_code - gdt_start						# Segmento di codice
@@ -73,8 +73,8 @@ _start:
 							cli																		# Sospendi gli interrupts
 
 							lgdt				gdt_descriptor										# Carica la global descriptor table
-							mov 				%cr0, %eax											# Muovi il valore nel registro CR0 in EAX
-   					        or	 				$0x1, %eax											# Esegui l'operazione OR sul bit più basso di EAX
-   					        mov 				%eax, %cr0											# Aggiorna CR0 abilitando la protected mode
+							mov					%cr0, %eax											# Muovi il valore nel registro CR0 in EAX
+							or					$0x1, %eax											# Esegui l'operazione OR sul bit più basso di EAX
+							mov					%eax, %cr0											# Aggiorna CR0 abilitando la protected mode
 
-							jmp                 $CODE_SEG,$_start32									# Salta alla parte in 32 bits del boot loader
+							jmp					$CODE_SEG,$_start32									# Salta alla parte in 32 bits del boot loader
