@@ -1,6 +1,8 @@
 BOOT_OUTPUT = ./out/boot/boot.o ./out/boot/boot32.o
 BOOT_FILES = ./bin/boot.bin $(BOOT_OUTPUT)
-KERNEL_FILES = ./out/kernel.S.o
+KERNEL_FILES = ./out/kernel.S.o ./out/kernel.o
+K_INCLUDES = -I./src
+K_FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
 #region BOOT FILES BUILD
 
@@ -22,7 +24,10 @@ KERNEL_FILES = ./out/kernel.S.o
 
 ./bin/kernel.bin: $(KERNEL_FILES)
 	ld -g -relocatable $(KERNEL_FILES) -o ./out/kernelfull.o
-	gcc -T ./src/linker.ld -o ./bin/kernel.bin -ffreestanding -O0 -nostdlib ./out/kernelfull.o
+	gcc $(K_FLAGS) -T ./src/linker.ld -o ./bin/kernel.bin ./out/kernelfull.o
+
+./out/kernel.o: ./src/kernel.c
+	gcc $(K_INCLUDES) $(K_FLAGS) -std=gnu99 -c ./src/kernel.c -o ./out/kernel.o
 
 #endregion KERNEL FILES BUILD
 
