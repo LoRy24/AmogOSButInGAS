@@ -27,4 +27,4 @@ _kernel_entry:
 							.equ				DATA_SEG, 0x10										# Segmento dei dati
 
 align:
-							.fill (512 - (. - _code_start)), 1, 0									# Allinea il kernel.S
+							.fill 				(512 - (. - _code_start)), 1, 0						# Allinea il kernel.S
